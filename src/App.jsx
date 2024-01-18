@@ -10,11 +10,11 @@ import axios from "axios";
 import { localTokenKey } from "./contstans";
 import NotFound from "./Pages/NotFound";
 
-
 function App() {
+  const token = localStorage.getItem(localTokenKey);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const token = localStorage.getItem(localTokenKey);
+
   useEffect(() => {
     (async function () {
       if (token) {
@@ -24,7 +24,6 @@ function App() {
     })();
   }, [navigate, token, dispatch]);
 
-  
   return (
     <>
       <Routes>

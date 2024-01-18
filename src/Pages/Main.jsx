@@ -3,7 +3,15 @@ import Aside from "../Components/Aside";
 import Header from "../Components/Header";
 import "../Styles/Main.css"
 import ProfileUser from "./ProfileUser";
+import { localTokenKey } from "../contstans";
+
+
 function Main() {
+
+  const token = localStorage.getItem(localTokenKey)
+  if(!token) {
+    window.location.replace("/login")
+  }
 
   return (
     <div className="">

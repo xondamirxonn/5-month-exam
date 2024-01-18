@@ -9,6 +9,15 @@ import { toast } from "react-toastify";
 
 
 function Groups() {
+
+  
+  const token = localStorage.getItem(localTokenKey);
+  if (!token) {
+    window.location.replace("/login");
+  }
+
+
+
   const navigate = useNavigate();
   const { groupID } = useParams();
   const { groupId } = useParams();

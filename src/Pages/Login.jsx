@@ -2,45 +2,46 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { localTokenKey, reqTokenHederKey } from "../contstans";
+import { Spinner } from "react-bootstrap";
 
 function Login() {
-
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  if (localStorage.getItem("register-token")) {
-    navigate("/main");
-  }
+  
   const FormLogin = async (e) => {
     e.preventDefault();
-  if (!username)
-    return toast("Username is required", { type: "error", theme: "colored" });
-  if (!password)
-    return toast("Password is required", { type: "error", theme: "colored" });
-  if (password.length < 6)
-    return toast("must be at least 6 characters long", {
-      type: "error",
-      theme: "colored",
-    });
-
-
+    if (!username)
+      return toast("Username is required", { type: "error", theme: "colored" });
+    if (!password)
+      return toast("Password is required", { type: "error", theme: "colored" });
+    if (password.length < 6)
+      return toast("must be at least 6 characters long", {
+        type: "error",
+        theme: "colored",
+      });
     try {
-      let data = await axios.post("/auth", {
+      let {
+        data: { token },
+      } = await axios.post("/auth", {
         username,
         password,
       });
-      localStorage.setItem("register-token", data.data.token);
+      localStorage.setItem(localTokenKey, token);
+
       toast("Logged in successfully", { type: "success", theme: "colored" });
-      console.log(data);
+      axios.defaults.headers.common[reqTokenHederKey] = token;
       navigate("/main");
+      console.log(data);
     } catch (error) {
       if (error.response.status === 404) {
         console.log(error);
-          toast(error.response.data.message, { type: "error", theme: "colored" })
+        toast(error.response.data.message, { type: "error", theme: "colored" });
       }
     }
   };
-   
+
   return (
     <div className="bg-secondary  p-5" style={{ height: "100vh" }}>
       <div

@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { localTokenKey, reqTokenHederKey } from "../contstans";
 
 function Register() {
   const [name, setName] = useState("");
@@ -18,16 +19,23 @@ function Register() {
       return toast("must be at least 6 characters long", { type: "error" });
 
     try {
-      let data = await axios.post("/users", {
-        name,
-        username,
-        password,
-      });
+      // let {
+      //   data: { token },
+      // } = await axios.post("/users", {
+      //   name,
+      //   username,
+      //   password,
+      // });
 
-      localStorage.setItem("register-token", data.data.token);
+       let {
+         data: { token },
+       } = await axios.post("/users", { name, username, password });
 
-      console.log(data);
+      // localStorage.setItem("register-token", data.data.token);
+      localStorage.setItem(localTokenKey, token);
+      axios.defaults.headers.common[reqTokenHederKey] = token;
       navigate("/main");
+      console.log(data);
     } catch (error) {}
   };
 
@@ -100,7 +108,9 @@ function Register() {
               onChange={(e) => setPassword(e.target.value)}
             />
             <button className="btn btn-success w-100 my-3">Submit</button>
-            <span className="pb-2">Do you have an account? <Link to="/login">Log in</Link></span>
+            <span className="pb-2">
+              Do you have an account? <Link to="/login">Log in</Link>
+            </span>
           </form>
         </div>
       </div>

@@ -1,9 +1,17 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import useFetch from "../Hooks/useFetch";
 import { toast } from "react-toastify";
 
 function ProfileUser() {
+  function copyText(text) {
+    const copied = document.createElement("input");
+    copied.value = text;
+    document.body.appendChild(copied);
+    copied.select();
+    document.execCommand("copy");
+    document.body.removeChild(copied);
+  }
   let { data } = useFetch("/auth");
   console.log(data);
   const DeleteUser = () => {
@@ -17,7 +25,26 @@ function ProfileUser() {
       console.log("Bekor qilindi");
       toast("Account deletion cancelled", {type: "success", theme: "colored"});
     }
+  
   };
+
+  const textToCopy = `${data?.username}`;
+
+  const CopyClick = () => {
+    copyText(textToCopy);
+    toast("Username is copied", {type: "success", theme: "colored"})
+  };
+
+  const [randomColor, setRandomColor] = useState(generateRandomColor());
+
+  
+  function generateRandomColor() {
+    const randomColor = `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(
+      Math.random() * 256
+    )}, ${Math.floor(Math.random() * 256)})`;
+    return randomColor;
+  }
+
 
   const Deleted = data?.status === "deleted" ;
   return (
@@ -30,7 +57,7 @@ function ProfileUser() {
             <h1
               className="rounded-circle align-items-center text-center  d-grid text-white display-2"
               style={{
-                backgroundColor: "brown",
+                backgroundColor: randomColor,
                 height: "100px",
                 width: "100px",
                 fontSize: "4rem",
@@ -56,7 +83,7 @@ function ProfileUser() {
           </div>
         </div>
         <div className="d-flex gap-3">
-          <button className="btn btn-primary">
+          <button className="btn btn-primary" onClick={CopyClick}>
             <i className="fa-solid fa-copy"></i> Copy Username
           </button>
           <button className="btn btn-danger" onClick={DeleteUser}>

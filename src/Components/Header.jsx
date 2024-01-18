@@ -1,20 +1,26 @@
 import React, { useState } from "react";
-import bg_img from "../assets/main-bg-img.webp";
 import { Link, useNavigate } from "react-router-dom";
-import useFetch from "../Hooks/useFetch";
+import { toast } from "react-toastify";
 
 function Header() {
   const navigate = useNavigate();
 
   const [setting, setSettings] = useState(false);
- 
+
+  const Uptated = () => {
+    setTimeout(() => {
+      window.location.reload();
+    }, 2_000);
+
+    toast("The site has been updated", { type: "success", theme: "colored" });
+  };
+
   const Logout = () => {
     localStorage.removeItem("register-token");
 
     navigate("/login");
   };
 
-  let { data: searchs } = useFetch("/search");
   return (
     <div>
       <div className="bg-light p-2 shadow position-sticky z-1">
@@ -25,22 +31,18 @@ function Header() {
               className="fa-solid fa-blog fa-2xl text-decoration-none"
               style={{ color: "#1c81ce" }}
             ></Link>
-            <button className="btn btn-info rounded-5 px-3">+ New</button>
+            <button className="btn btn-primary rounded-5 px-3">+ New</button>
           </div>
           <div>
-            <input 
+            <input
               className="form-control w-auto"
               type="text"
               placeholder="Search group and join"
-              // value={search}
-              // onChange={handleSearch}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
           <div className="d-flex gap-3 align-items-center">
-            <button
-              onClick={() => window.location.reload()}
-              className="btn btn-light rounded-circle"
-            >
+            <button onClick={Uptated} className="btn btn-light rounded-circle">
               <i className="fa-solid fa-rotate"></i>
             </button>
             <div>
@@ -65,7 +67,7 @@ function Header() {
       </div>
       {setting ? (
         <div
-          className="bg-light p-2 rounded-2 px-5 position-absolute z-1 shadow"
+          className="bg-light p-2 rounded-2 px-5 position-absolute z-3 shadow"
           style={{ top: "3.5rem", right: "2.5rem" }}
         >
           <button className="btn " onClick={Logout}>

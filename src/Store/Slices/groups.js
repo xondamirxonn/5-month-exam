@@ -5,28 +5,22 @@ const initialState = null
 
 
 const groupsSlice = createSlice({
-  name: "groups-slice",
+  name: "Mygroups-slice",
   initialState,
   reducers: {
     setGroups(_state, action) {
       return action.payload
     },
-    // resetGroups(state) {
-    //   state.groups = []
-    // },
+ 
 
-    addMember: (state, {payload}) => {
+    addGroupsMember: (state, {payload}) => {
       state.info = {...state, ...payload}
     },
 
-    addGroup:(state, {payload}) => {
-      // state.groups.push(payload)
+    addGroups:(state, {payload}) => {
       state.info  = {...state, ...payload}
     },
-    // removeGroups(state, payload) {
-    //   state.groups = state.groups.filter((group) => group._id !== payload);
-
-    // },
+  
   },
 });
 

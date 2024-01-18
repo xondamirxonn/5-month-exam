@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "../Styles/Aside.css";
 import axios from "axios";
 import useFetch from "../Hooks/useFetch";
 import { toast } from "react-toastify";
@@ -14,24 +13,32 @@ function Aside() {
 
   const CreateGroupSubmit = async (e) => {
     
-        // if(name.length > 10) return toast("The group name must be a maximum of 10 characters", {type: "info", theme: "colored"});
-        // if(name.length <= 3) return toast("The group name must be at least 4 characters long" , {type: "info", theme: "colored  "});
+  
     e.preventDefault();
-    let { data } = await axios.post("/groups", {
-      name,
-      password,
-    });
+   try {
+     let { data } = await axios.post("/groups", {
+       name,
+       password,
+     });
 
-    
-    console.log(data);
-    setTimeout(() => {
-      window.location.reload()
-    }, 1_000);
+     console.log(data);
+     setTimeout(() => {
+       window.location.reload();
+     }, 1_000);
 
-      toast("group created successfully", {
-        type: "success",
-        theme: "colored",
-      });
+     toast("group created successfully", {
+       type: "success",
+       theme: "colored",
+     });
+   } catch (error) {
+     if (error.response.status === 404 || 403 || 400) {
+       console.log(error);
+       toast(error.response.data.message, {
+         type: "error",
+         theme: "colored",
+       });
+     }
+   }
  
   };
 
@@ -40,8 +47,8 @@ function Aside() {
   console.log(data);
 
   return (
-    <div className="bg-light z-n1  shadow w-100">
-      <div className=" mx-3 py-4" style={{ height: "100vh" }}>
+    <div className="bg-light z-n1  shadow-lg w-100">
+      <div className=" mx-3 py-4 " style={{ height: "90vh" }}>
         <button className="btn btn-light w-100 p-3">
           <Link className="text-decoration-none text-black p-5" to="/main">
             <i className="fa-solid fa-user" style={{ color: "#2753a0" }}></i>{" "}
@@ -66,7 +73,7 @@ function Aside() {
             </li>
 
             {data.map((group) => (
-              <li className="my-3 ">
+              <li className="my-3 " >
                 <Button as={Link} to={`/main/groups/${group._id}`} className="btn btn-light mx-1 w-100 " >{group?.name}</Button>
               </li>
             ))}
@@ -79,8 +86,8 @@ function Aside() {
 
         {create ? (
           <div
-            className="bg-light shadow p-2 w-100 z-2 position-sticky rounded-4"
-            style={{ marginLeft: "23rem", marginTop: "-17.5rem" }}
+            className="bg-light shadow p-2 w-100 z-3  start-100 position-relative rounded-4"
+            style={{ marginTop: "-15rem" }}
           >
             <span className="d-flex align-items-center justify-content-between mx-1 ">
               Group name and password{" "}

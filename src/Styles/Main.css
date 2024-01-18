@@ -1,0 +1,9 @@
+.cont{
+  background-image: url("../assets/main-bg-img.webp");
+  background-repeat: no-repeat;
+  /* background-size: cover; */
+  height: 625.5px;
+  position: relative;
+  top: -.5rem;
+  z-index: -9999;
+}

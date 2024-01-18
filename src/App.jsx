@@ -1,24 +1,43 @@
-import { Container } from "react-bootstrap";
 import Register from "./Pages/Register";
 import Login from "./Pages/Login";
-import { Route, Routes} from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Main from "./Pages/Main";
-// import Group from "./Pages/Groups";
 import Groups from "./Pages/Groups";
-// let { groupId } = useParams();
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setGroups } from "./Store/Slices/groups";
+import axios from "axios";
+import { localTokenKey } from "./contstans";
+import NotFound from "./Pages/NotFound";
 
-// console.log(groupId);
 
 function App() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const token = localStorage.getItem(localTokenKey);
+  useEffect(() => {
+    (async function () {
+      if (token) {
+        const { data: Mygroups } = await axios.get("/groups");
+        dispatch(setGroups(Mygroups));
+      }
+    })();
+  }, [navigate, token, dispatch]);
+
+  
   return (
     <>
-      {/* <Login /> */}
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/main" element={<Main />} />
-        <Route path="/" element={<Main />} />
-        <Route path="/main/groups/:groupId" element={<Groups />} />
+        <Route>
+          <Route path="/main" element={<Main />} />
+          <Route path="/" element={<Main />} />
+          <Route path="/main/groups/:groupID" element={<Groups />} />
+        </Route>
+        <Route>
+          <Route path="*" element={<NotFound />} />
+        </Route>
       </Routes>
     </>
   );

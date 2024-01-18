@@ -9,10 +9,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.min.css";
 
 import { Provider } from "react-redux";
-import store from "./Store";
 
 import { ToastContainer } from "react-toastify";
 import { localTokenKey, reqTokenHederKey } from "./contstans.js";
+import store from "./Store/index.js";
 
 axios.defaults.baseURL = "https://nt-shopping-list.onrender.com/api";
 axios.defaults.headers.common[reqTokenHederKey] =

@@ -14,9 +14,15 @@ import { ToastContainer } from "react-toastify";
 import { localTokenKey, reqTokenHederKey } from "./contstans.js";
 import store from "./Store/index.js";
 
+ 
+
 axios.defaults.baseURL = "https://nt-shopping-list.onrender.com/api";
 axios.defaults.headers.common[reqTokenHederKey] =
   localStorage.getItem(localTokenKey);
+
+   if (!localTokenKey) {
+     window.location.replace("/login");
+   }
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>

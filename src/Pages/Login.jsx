@@ -101,7 +101,7 @@ function Login() {
             />
             <button className="btn btn-success w-100 my-3">Submit</button>
             <span className="pb-2">
-              Don't have an account yet? <Link to="/register">Sign in</Link>
+              Don't have an account yet? <Link to="/register">Sign Up</Link>
             </span>
           </form>
         </div>

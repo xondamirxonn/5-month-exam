@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { localTokenKey } from "../contstans";
 
 function Header() {
   const navigate = useNavigate();
 
   const [setting, setSettings] = useState(false);
+  const [bellActive, setBellActive] = useState(false);
+  const [gear, setGear] = useState(false);
 
   const Uptated = () => {
     setTimeout(() => {
@@ -16,10 +19,18 @@ function Header() {
   };
 
   const Logout = () => {
-    localStorage.removeItem("register-token");
+    localStorage.removeItem(localTokenKey);
 
     navigate("/login");
   };
+
+  const Bell = () => {
+    setBellActive(!bellActive)
+  }
+
+   const Gear = () => {
+     setGear(!gear)
+   };
 
   return (
     <div>
@@ -46,7 +57,13 @@ function Header() {
               <i className="fa-solid fa-rotate"></i>
             </button>
             <div>
-              <button className="btn btn-light rounded-circle ">
+              <button
+                // className="btn btn-light rounded-circle "
+                onClick={Bell}
+                className={`btn btn-light rounded-circle ${
+                  bellActive ? "fa-shake" : ""
+                }`}
+              >
                 <i className="fa-regular fa-bell"></i>
               </button>
               <span
@@ -59,8 +76,15 @@ function Header() {
             <button
               onClick={() => setSettings(!setting)}
               className="btn btn-light"
+              
             >
-              <i className="fa-solid fa-gear position-relative"></i>
+              <i
+                onClick={Gear}
+                className={` fa-solid fa-gear position-relative ${
+                  gear ? "fa-shake" : ""
+                }`}
+                // className="fa-solid fa-gear position-relative"
+              ></i>
             </button>
           </div>
         </div>

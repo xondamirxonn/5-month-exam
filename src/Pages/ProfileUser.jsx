@@ -70,9 +70,10 @@ function ProfileUser() {
             </h1>
             <div>
               <div className="d-flex gap-3 align-items-center">
-                <h2>
+                <h2 data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top">
                   {data?.name.charAt(0).toUpperCase() + data?.name.slice(1)}
                 </h2>
+                
                 <span
                   className={`rounded-3 py-1 px-3 text-white  ${
                     Deleted ? "bg-danger" : "bg-success"

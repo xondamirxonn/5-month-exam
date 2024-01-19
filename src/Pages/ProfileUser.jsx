@@ -15,15 +15,18 @@ function ProfileUser() {
   let { data } = useFetch("/auth");
   console.log(data);
   const DeleteUser = () => {
-    if (confirm("Rostan ham accountni o'chirmoqchimisiz")) {
+    if (confirm("Are you sure you want to delete the account?")) {
       axios.delete("/users");
-      toast("Account deleted", {type: "success" , theme: "colored"});
+      toast("Account deleted", { type: "success", theme: "colored" });
       setTimeout(() => {
         window.location.reload();
       }, 3_000);
     } else {
       console.log("Bekor qilindi");
-      toast("Account deletion cancelled", {type: "success", theme: "colored"});
+      toast("Account deletion cancelled", {
+        type: "success",
+        theme: "colored",
+      });
     }
   
   };
